@@ -3,8 +3,7 @@ package main
 import (
 	"rndev/backend-api/config"
 	"rndev/backend-api/database"
-
-	"github.com/gin-gonic/gin"
+	"rndev/backend-api/routes"
 )
 
 func main() {
@@ -14,19 +13,18 @@ func main() {
 
 	//inisialisasi database
 	database.InitDB()
-	
+	//setup router
 	//inisialiasai Gin
-	router := gin.Default()
-
-	//membuat route dengan method GET
-	router.GET("/", func(c *gin.Context) {
-
-		//return response JSON
-		c.JSON(200, gin.H{
-			"message": "Hello World!",
-		})
-	})
-
+	r := routes.SetupRouter()
+	
+	
 	//mulai server
-	router.Run(":" + config.GetEnv("APP_PORT", "3000"))
+	r.Run(":" + config.GetEnv("APP_PORT", "3000"))
 }
+
+// func SetupRouter() *gin.Engine{
+// 	router := gin.Default()
+
+// 	router.POST("/api/register", controllers.Register)
+// 	return router
+// }
